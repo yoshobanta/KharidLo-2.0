@@ -1,0 +1,7 @@
+Removed the sales_history class variable from the Kharidlo class.
+Added st.session_state.sales_history initialization in the Streamlit app setup section.
+Modified the checkout method to append to st.session_state.sales_history instead of the class variable.
+Updated the Admin Dashboard to read from st.session_state.sales_history instead of the class variable.
+
+Like really man when i am as a user buying it is not been reflected in admin always show empty as it the app is been reset .
+But is i again login with user the quatity is been sold and the session is been save so i tried this and yep it worked .
