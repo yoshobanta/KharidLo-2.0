@@ -1,0 +1,33 @@
+name: Keep Streamlit App Alive
+
+on:
+  schedule:
+    # Runs every 1 hour. Note: You can change this to '0 */10 * * *' 
+    # to run every 10 hours and save resources.
+    - cron: "0 * * * *"    
+  workflow_dispatch:        # Allows manual run from the Actions tab
+
+# ------------------------------------------------------------------
+# **CRITICAL FIX**: This grants the `github-actions[bot]` the 
+# necessary permission to push the empty commit to your repository.
+# This resolves the 403 Permission Denied error.
+# ------------------------------------------------------------------
+permissions:
+  contents: write
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Keep app alive (empty commit)
+        run: |
+          # Set up the bot's identity for the commit
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Create an empty commit and push it to the main branch
+          git commit --allow-empty -m "keepalive: prevent Streamlit sleep"
+          git push
